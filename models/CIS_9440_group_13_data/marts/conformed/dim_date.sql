@@ -1,7 +1,6 @@
+WITH 
 
-
--- Build initial CTEs for Jinja syntax to make refs to staging models easier
-WITH NYC_311_FEC AS (
+NYC_311_FEC AS (
     SELECT * FROM {{ ref('stg_NYC_311_FEC') }}
 ),
 
@@ -19,8 +18,6 @@ all_dates AS (
 
     UNION DISTINCT
 
-
-
     -- DOHMH_NYC_Restaurant_Inspection_Results: date roles referenced by DOHMH_NYC_Restaurant_Inspection_Results
     SELECT DISTINCT CAST(inspection_date AS DATE) AS full_date
     FROM DOHMH_NYC_RIR
@@ -30,7 +27,6 @@ all_dates AS (
 
 ),
 
--- Date dimension with NYC fiscal year, Jul 1 - Jun 30, diff from federal
 dim_date AS (
 
     SELECT
@@ -53,7 +49,6 @@ dim_date AS (
 -- Null placeholder row: to handle NULL values.
 -- Building fact tables should COALESCE a null source date to this key
 -- Keeps all fact and date_dim joins INNER JOINs safely
--- Kimball convention to be explicit. (More to come on this)
 
 null_placeholder AS (
 
@@ -70,8 +65,6 @@ null_placeholder AS (
         CAST(NULL AS BOOLEAN) AS is_weekend
  
 ) 
--- make sure BQ knows the col types
-
 
 SELECT * FROM dim_date
 

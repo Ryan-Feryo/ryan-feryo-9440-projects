@@ -1,6 +1,3 @@
--- Complaint type dimension for DOT 311 service requests.
--- Grain: one row per distinct (complaint_type, descriptor) combination.
-
 WITH DOHMH_NYC_RIR AS (
     SELECT * FROM {{ ref('stg_DOHMH_RIR') }}
 ),
@@ -8,9 +5,9 @@ WITH DOHMH_NYC_RIR AS (
 distinct_violation AS (
 
     SELECT DISTINCT
-        CAST(violation_code AS STRING) AS violation_code
-        CAST(violation_description AS STRING) AS violation_description
-        CAST(critical_category AS STRING) AS critical_category
+        violation_code,
+        violation_description,
+        critical_category
 
 
     FROM stg_DOHMH_RIR

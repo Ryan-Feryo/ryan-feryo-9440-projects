@@ -27,7 +27,7 @@ WITH source AS (
        CONCAT(CAST(camis AS STRING), '-', FORMAT_DATE('%Y-%m-%d',  DATE(CAST(inspection_date AS TIMESTAMP)))) as inspection_id,
 
 
-       CAST(inspection_date AS TIMESTAMP) AS inspection_date,
+       DATE(CAST(inspection_date AS TIMESTAMP)) AS inspection_date,
        
 
        CAST(dba AS STRING) AS dba,

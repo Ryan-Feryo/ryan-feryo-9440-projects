@@ -1,6 +1,3 @@
--- Complaint type dimension for DOT 311 service requests.
--- Grain: one row per distinct (complaint_type, descriptor) combination.
-
 WITH NYC_311_FEC AS (
     SELECT * FROM {{ ref('stg_NYC_311_FEC') }}
 ),
@@ -8,10 +5,10 @@ WITH NYC_311_FEC AS (
 distinct_problem_details AS (
 
     SELECT DISTINCT
-        CAST(descriptor AS STRING) AS problem_type
-        CAST(descriptor_2 AS STRING) AS problem_detail
-    FROM NYC_311_FEC
-    WHERE problem_type IS NOT NULL
+        descriptor AS problem_type,
+        descriptor_2  AS problem_detail
+    FROM stg_NYC_311_FEC
+    WHERE descriptor IS NOT NULL
 
 ),
 
@@ -19,7 +16,7 @@ enriched AS (
 
     SELECT
         problem_type,
-        problem_detail,
+        problem_detail
 
         -- Derived category, based on keywords appearing in descriptor
         -- Order matters due to CASE WHEN structure (worth considering)

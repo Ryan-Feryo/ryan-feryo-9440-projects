@@ -8,11 +8,11 @@ WITH DOHMH_NYC_RIR AS (
 distinct_restaurant AS (
 
     SELECT DISTINCT
-        CAST(camis AS STRING) AS camis
-        CAST(dba AS STRING) AS dba
-        CAST(cuisine_description AS STRING) AS cuisine_description
-        CAST(building AS STRING) AS building
-        CAST(street AS STRING) AS street
+        camis,
+        dba,
+        cuisine_description,
+        building,
+        street
 
     FROM stg_DOHMH_RIR
     WHERE camis IS NOT NULL AND inspection_date IS NOT NULL

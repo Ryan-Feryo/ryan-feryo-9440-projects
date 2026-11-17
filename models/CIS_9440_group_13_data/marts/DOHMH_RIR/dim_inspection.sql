@@ -8,14 +8,12 @@ WITH DOHMH_NYC_RIR AS (
 distinct_inspection AS (
 
     SELECT DISTINCT
-        CAST(inspection_id AS STRING) AS inspection_id
-        CAST(inspection_type AS STRING) AS inspection_type
-        CAST(inspection_date AS STRING) AS inspection_date
-        CAST(score AS STRING) AS score
-        CAST(grade AS STRING) AS grade
-        CAST(grade_date AS STRING) AS grade_date
-
-
+        inspection_id,
+        inspection_type,
+        inspection_date,
+        score,
+        grade,
+ 
     FROM stg_DOHMH_RIR
     WHERE inspection_id IS NOT NULL AND inspection_date IS NOT NULL
 
@@ -29,8 +27,6 @@ enriched AS (
         inspection_date,
         score,
         grade,
-        grade_date
-
 
         -- Derived category, based on keywords appearing in descriptor
         -- Order matters due to CASE WHEN structure (worth considering)
@@ -40,12 +36,11 @@ enriched AS (
 
 ),
 
-
 dim_inspection AS (
 
     SELECT
         {{ dbt_utils.generate_surrogate_key([
-            'inspection_id', 'inspection_type', 'inspection_date', 'score', 'grade', 'grade_date'
+            'inspection_id', 'inspection_type', 'inspection_date', 'score', 'grade'
         ]) }} AS inspection_key,
 
         inspection_id,
@@ -53,7 +48,7 @@ dim_inspection AS (
         inspection_date,
         score,
         grade,
-        grade_date
+
 
     FROM enriched
 
