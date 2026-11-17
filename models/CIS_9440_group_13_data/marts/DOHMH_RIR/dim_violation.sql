@@ -7,7 +7,7 @@ distinct_violation AS (
     SELECT DISTINCT
         violation_code,
         violation_description,
-        critical_category
+        critical_flag AS critical_category
 
 
     FROM stg_DOHMH_RIR

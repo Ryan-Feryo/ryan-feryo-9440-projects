@@ -39,3 +39,9 @@ models:
        dot_311:
          +materialized: table
 
+   CIS_9440_group_13_data:
+     staging:
+        +schema: group_13_project_staging
+        
+     marts:
+        +schema: group_13_warehouse_marts
