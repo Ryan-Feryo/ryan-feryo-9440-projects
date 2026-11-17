@@ -18,25 +18,16 @@ clean-targets:
 
 # Set up models, which are basically SQL files, to create tables
 models:
- nyc_analytics:
-   +materialized: table
+  nyc_analytics:
+    +materialized: table
 
-   assignment_work:
-     staging:
-       +materialized: table
-       +schema: group_13_project_staging
+    staging:
+      +schema: group_13_project_staging
 
-     marts:
-       +materialized: table
-       +schema: group_13_warehouse_marts
-      
-       conformed:
-         +materialized: table
+    DOHMH_RIR:
+      +schema: group_13_warehouse_marts
 
-       dob_job_filings:
-         +materialized: table
+    NYC_311_complaints:
+      +schema: group_13_warehouse_marts
 
-       dot_311:
-         +materialized: table
-
- 
+  
