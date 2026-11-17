@@ -1,4 +1,4 @@
-
+--creating staging table for DOHMH_RIR
 WITH source AS (
    SELECT camis,
             dba,
@@ -18,19 +18,15 @@ WITH source AS (
      FROM {{ source('DOHMH_NYC_RIR', 'DOHMH_NYC_Restaurant_Inspection_Results') }}
 ),
 
-
+--creating CTE to load columns and clean data when necessary
     cleaned AS (
         
     SELECT
-
-
        CAST(camis AS STRING) AS camis,
        CONCAT(CAST(camis AS STRING), '-', FORMAT_DATE('%Y-%m-%d',  DATE(CAST(inspection_date AS TIMESTAMP)))) as inspection_id,
 
-
        DATE(CAST(inspection_date AS TIMESTAMP)) AS inspection_date,
        
-
        CAST(dba AS STRING) AS dba,
        CAST(building AS STRING) AS building,
        CAST(street AS STRING) AS street,
@@ -42,7 +38,6 @@ WITH source AS (
        CAST(score AS STRING) AS score,
        CAST(grade AS STRING) AS grade,
        CAST(inspection_type AS STRING) AS inspection_type,
-
 
        -- Location - clean zip code, handling several common zip code data problems
        CASE
@@ -71,7 +66,7 @@ WITH source AS (
 
    FROM source
 
-   -- Filters
+   -- Filters, start date 2020-01-01 to present
    WHERE camis IS NOT NULL
    AND inspection_date IS NOT NULL
    AND boro IS NOT NULL

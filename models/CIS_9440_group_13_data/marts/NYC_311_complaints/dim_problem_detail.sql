@@ -1,3 +1,5 @@
+--creating dim_product table
+--grain: one prow per problem
 WITH NYC_311_FEC AS (
     SELECT * FROM {{ ref('stg_NYC_311_FEC') }}
 ),

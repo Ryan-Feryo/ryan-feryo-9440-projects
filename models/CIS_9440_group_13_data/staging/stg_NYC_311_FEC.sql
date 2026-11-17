@@ -1,3 +1,4 @@
+-- creating staging table for NYC_311_complaints
 WITH source AS (
    SELECT unique_key,
           created_date,
@@ -7,13 +8,12 @@ WITH source AS (
           incident_zip
    FROM {{ source('NYC_311_FEC', 'NYC_311_Food_Establishment_Complaints') }}
 ), 
-
+--creating CTE to load the data needed and cleaning data when necessary
         cleaned AS (
         
     SELECT
 
        CAST(unique_key AS STRING) AS unique_key,
-
        CAST(created_date AS TIMESTAMP) AS created_date,
 
        -- Request details
@@ -47,7 +47,7 @@ WITH source AS (
 
    FROM source
 
-   -- Filters
+   -- Filters making start date 2020-01-01 to present
    WHERE unique_key IS NOT NULL
    AND created_date IS NOT NULL
    AND incident_zip IS NOT NULL

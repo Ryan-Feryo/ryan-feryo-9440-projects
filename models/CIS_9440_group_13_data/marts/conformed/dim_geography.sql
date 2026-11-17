@@ -1,3 +1,5 @@
+--creating dim_geography table to get all locations needed for analysis
+--grain: one location
 WITH NYC_311_FEC AS (
     SELECT * FROM {{ ref('stg_NYC_311_FEC') }}
 ),
@@ -6,6 +8,7 @@ DOHMH_NYC_RIR AS (
     SELECT * FROM {{ ref('stg_DOHMH_RIR') }}
 ),
 
+--gathering all locations
 all_locations AS (
 
     SELECT DISTINCT
@@ -26,6 +29,8 @@ all_locations AS (
 
 ),
 
+
+--creating actual table from both datasets
 dim_geography AS (
 
     SELECT
@@ -41,7 +46,6 @@ dim_geography AS (
 ),
 
 -- Null placeholder row to handle NULL values.
-
 null_placeholder AS (
 
     SELECT

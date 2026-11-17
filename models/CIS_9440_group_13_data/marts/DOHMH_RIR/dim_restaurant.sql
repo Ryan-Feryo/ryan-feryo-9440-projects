@@ -1,5 +1,5 @@
--- Complaint type dimension for DOT 311 service requests.
--- Grain: one row per distinct (complaint_type, descriptor) combination.
+--creating dim_restaurant table
+-- Grain: one row per restaurant
 
 WITH DOHMH_NYC_RIR AS (
     SELECT * FROM {{ ref('stg_DOHMH_RIR') }}

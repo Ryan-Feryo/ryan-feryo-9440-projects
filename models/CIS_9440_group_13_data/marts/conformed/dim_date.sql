@@ -1,3 +1,5 @@
+--creating conformed dimension for dim_date
+--grain: one date
 WITH 
 
 NYC_311_FEC AS (
@@ -8,10 +10,10 @@ DOHMH_NYC_RIR AS (
     SELECT * FROM {{ ref('stg_DOHMH_RIR') }}
 ),
 
--- Then union dates from the staging data together, collecting all poss dates
+-- collecting all poss dates from both NYC_311_FEC and DOHMH_NYC_RIR
 all_dates AS (
 
-    -- 311 service requests: date roles referenced by fact_311_service_request
+    -- 311 dates
     SELECT DISTINCT CAST(created_date AS DATE) AS full_date
     FROM NYC_311_FEC
     WHERE created_date IS NOT NULL
@@ -23,10 +25,8 @@ all_dates AS (
     FROM DOHMH_NYC_RIR
     WHERE inspection_date IS NOT NULL
 
-
-
 ),
-
+--creating the actual table and loading it as dim_date
 dim_date AS (
 
     SELECT
@@ -50,6 +50,8 @@ dim_date AS (
 -- Building fact tables should COALESCE a null source date to this key
 -- Keeps all fact and date_dim joins INNER JOINs safely
 
+
+--creating placeholders
 null_placeholder AS (
 
     SELECT

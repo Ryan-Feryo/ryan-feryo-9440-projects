@@ -1,3 +1,5 @@
+--creating dim_violation table
+--grain:one violation instance
 WITH DOHMH_NYC_RIR AS (
     SELECT * FROM {{ ref('stg_DOHMH_RIR') }}
 ),
