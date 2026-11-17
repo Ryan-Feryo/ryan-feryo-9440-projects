@@ -1,25 +1,19 @@
--- Clean and standardize 311 DOT service request data
--- One row per service request
-
 WITH source AS (
    SELECT unique_key,
-           created_date,
-           descriptor,
-           descriptor_2,
-           borough,
-           incident_zip
+          created_date,
+          descriptor,
+          descriptor_2,
+          borough,
+          incident_zip
    FROM {{ source('NYC_311_FEC', 'NYC_311_Food_Establishment_Complaints') }}
 ), 
 
-
-           
         cleaned AS (
         
     SELECT
-       -- Identifiers
+
        CAST(unique_key AS STRING) AS unique_key,
 
-       -- Date/Time
        CAST(created_date AS TIMESTAMP) AS created_date,
 
        -- Request details
@@ -58,10 +52,10 @@ WITH source AS (
    AND created_date IS NOT NULL
    AND incident_zip IS NOT NULL
    AND borough IS NOT NULL
+   AND CAST(created_date AS TIMESTAMP) >= TIMESTAMP ('2020-01-01')
 
    -- Deduplicate
    QUALIFY ROW_NUMBER() OVER (PARTITION BY unique_key ORDER BY created_date DESC) = 1
 )
 
 SELECT * FROM cleaned
--- All should be part of this table after running: stg_nyc_311_dot

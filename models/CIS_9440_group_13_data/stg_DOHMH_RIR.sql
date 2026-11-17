@@ -1,6 +1,3 @@
--- Clean and standardize 311 DOT service request data
--- One row per service request
-
 WITH source AS (
    SELECT camis,
             dba,
@@ -21,16 +18,15 @@ WITH source AS (
 ),
 
 
-            
     cleaned AS (
         
     SELECT
 
-       -- Identifiers
+
        CAST(camis AS STRING) AS camis,
        CONCAT(CAST(camis AS STRING), '-', FORMAT_DATE('%Y-%m-%d',  DATE(CAST(inspection_date AS TIMESTAMP)))) as inspection_id,
 
-       -- Date/Time
+
        CAST(inspection_date AS TIMESTAMP) AS inspection_date,
        
 
@@ -78,6 +74,7 @@ WITH source AS (
    WHERE camis IS NOT NULL
    AND inspection_date IS NOT NULL
    AND boro IS NOT NULL
+   AND CAST(inspection_date AS TIMESTAMP) >= TIMESTAMP ('2020-01-01')
 
    -- Deduplicate
    QUALIFY ROW_NUMBER() OVER (PARTITION BY camis, inspection_date, violation_code ORDER BY inspection_date DESC) = 1
