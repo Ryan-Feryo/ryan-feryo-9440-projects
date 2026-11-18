@@ -1,0 +1,20 @@
+version: 1
+sources:
+  - name: NYC_311_FEC
+    description: Raw data loaded from NYC Open Data Food Establishment Complaints
+    database: ryanferyo-cis-9440-baruch
+    schema: CIS_9440_group_13_data
+    tables:
+      - name: NYC_311_Food_Establishment_Complaints
+        description: |
+          NYC 311 Food Establishment Complaints. One row per 311 service request complaint 
+          in the filtered Food Establishment subset.
+
+  - name: DOHMH_NYC_RIR
+    description: DOHMH NYC Restaurant Inspection Results
+    database: ryanferyo-cis-9440-baruch
+    schema: CIS_9440_group_13_data 
+    tables:
+      - name: DOHMH_NYC_Restaurant_Inspection_Results
+        description: |
+          One row per distinct restaurant inspection event.
