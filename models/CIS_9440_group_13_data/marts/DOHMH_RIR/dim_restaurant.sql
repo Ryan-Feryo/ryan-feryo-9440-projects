@@ -16,6 +16,10 @@ distinct_restaurant AS (
 
     FROM stg_DOHMH_RIR
     WHERE camis IS NOT NULL AND inspection_date IS NOT NULL
+        QUALIFY ROW_NUMBER() OVER (
+        PARTITION BY camis
+        ORDER BY inspection_date DESC, dba, building, street
+    ) = 1
 
 ),
 
@@ -41,7 +45,7 @@ dim_restaurant AS (
 
     SELECT
         {{ dbt_utils.generate_surrogate_key([
-            'camis', 'dba', 'cuisine_description', 'building', 'street'
+            'camis'
         ]) }} AS restaurant_key,
 
         camis,
