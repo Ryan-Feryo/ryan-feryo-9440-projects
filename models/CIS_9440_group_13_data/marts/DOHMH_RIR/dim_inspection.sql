@@ -15,6 +15,10 @@ distinct_inspection AS (
  
     FROM stg_DOHMH_RIR
     WHERE inspection_id IS NOT NULL AND inspection_date IS NOT NULL
+    QUALIFY ROW_NUMBER() OVER (
+    PARTITION BY inspection_id
+    ORDER BY grade IS NULL, score IS NULL, inspection_date DESC
+    ) = 1
 
 ),
 
